@@ -1,0 +1,238 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { useAuth } from '@/components/providers';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { 
+  Heart, 
+  Menu, 
+  User, 
+  Calendar, 
+  MessageCircle, 
+  Settings, 
+  LogOut,
+  Stethoscope,
+  Search,
+  BookOpen
+} from 'lucide-react';
+
+export function Navbar() {
+  const { user, logout } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const patientNavItems = [
+    { href: '/dashboard', label: 'Dashboard', icon: User },
+    { href: '/find-doctors', label: 'Find Doctors', icon: Search },
+    { href: '/appointments', label: 'Appointments', icon: Calendar },
+    { href: '/consultations', label: 'Consultations', icon: MessageCircle },
+    { href: '/learn', label: 'Learn', icon: BookOpen },
+  ];
+
+  const doctorNavItems = [
+    { href: '/dashboard', label: 'Dashboard', icon: Stethoscope },
+    { href: '/schedule', label: 'Schedule', icon: Calendar },
+    { href: '/patients', label: 'Patients', icon: User },
+    { href: '/consultations', label: 'Consultations', icon: MessageCircle },
+  ];
+
+  const navItems = user?.role === 'doctor' ? doctorNavItems : patientNavItems;
+
+  return (
+    <nav className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <Heart className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              SkinShine
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            {user ? (
+              <>
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors"
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                <Link href="/learn" className="text-gray-600 hover:text-blue-600 transition-colors">
+                  Learn
+                </Link>
+                <Link href="/find-doctors" className="text-gray-600 hover:text-blue-600 transition-colors">
+                  Find Doctors
+                </Link>
+                <Link href="/for-doctors" className="text-gray-600 hover:text-blue-600 transition-colors">
+                  For Doctors
+                </Link>
+              </>
+            )}
+          </div>
+
+          {/* User Menu / Auth Buttons */}
+          <div className="flex items-center space-x-4">
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={user.avatar} alt={user.name} />
+                      <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{user.name}</p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {user.email}
+                      </p>
+                      <p className="text-xs leading-none text-blue-600 capitalize">
+                        {user.role}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="flex items-center">
+                      <User className="mr-2 h-4 w-4" />
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/settings" className="flex items-center">
+                      <Settings className="mr-2 h-4 w-4" />
+                      Settings
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout} className="text-red-600">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="hidden md:flex items-center space-x-2">
+                <Button variant="ghost" asChild>
+                  <Link href="/auth/login">Login</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/auth/register">Get Started</Link>
+                </Button>
+              </div>
+            )}
+
+            {/* Mobile Menu */}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <div className="flex flex-col space-y-4 mt-4">
+                  {user ? (
+                    <>
+                      <div className="flex items-center space-x-2 p-2">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={user.avatar} alt={user.name} />
+                          <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="text-sm font-medium">{user.name}</p>
+                          <p className="text-xs text-muted-foreground capitalize">{user.role}</p>
+                        </div>
+                      </div>
+                      {navItems.map((item) => {
+                        const Icon = item.icon;
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            <Icon className="w-4 h-4" />
+                            <span>{item.label}</span>
+                          </Link>
+                        );
+                      })}
+                      <Button variant="outline" onClick={logout} className="justify-start">
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Log out
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/learn"
+                        className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Learn
+                      </Link>
+                      <Link
+                        href="/find-doctors"
+                        className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Find Doctors
+                      </Link>
+                      <Link
+                        href="/for-doctors"
+                        className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        For Doctors
+                      </Link>
+                      <div className="flex flex-col space-y-2 pt-4">
+                        <Button variant="outline" asChild>
+                          <Link href="/auth/login" onClick={() => setIsOpen(false)}>
+                            Login
+                          </Link>
+                        </Button>
+                        <Button asChild>
+                          <Link href="/auth/register" onClick={() => setIsOpen(false)}>
+                            Get Started
+                          </Link>
+                        </Button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
