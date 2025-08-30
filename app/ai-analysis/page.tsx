@@ -14,6 +14,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { SkinModel } from '@/components/3d/SkinModel';
 import { ChatBot } from '@/components/ai/ChatBot';
+import { FadeIn, SlideIn } from '@/components/layout/page-transition';
+import { useLoading } from '@/hooks/use-loading';
 import { toast } from 'sonner';
 import { 
   Camera, 
@@ -46,7 +48,7 @@ export default function AIAnalysisPage() {
   const [symptoms, setSymptoms] = useState<string[]>([]);
   const [questionnaire, setQuestionnaire] = useState<Record<string, string>>({});
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const { isLoading: isAnalyzing, withLoading } = useLoading(false);
   const [progress, setProgress] = useState(0);
   const [showChatBot, setShowChatBot] = useState(false);
   const [chatMinimized, setChatMinimized] = useState(false);
@@ -179,19 +181,14 @@ export default function AIAnalysisPage() {
       return;
     }
 
-    setIsAnalyzing(true);
     setProgress(0);
 
-    try {
+    await withLoading(async () => {
       const result = await simulateAIAnalysis();
       setAnalysisResult(result);
       setStep(4);
       toast.success('Analysis completed successfully!');
-    } catch (error) {
-      toast.error('Analysis failed. Please try again.');
-    } finally {
-      setIsAnalyzing(false);
-    }
+    });
   };
 
   const getSeverityColor = (severity: string) => {
@@ -226,7 +223,8 @@ export default function AIAnalysisPage() {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="text-center mb-8">
+        <FadeIn>
+          <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             AI Skin Analysis
           </h1>
@@ -234,10 +232,12 @@ export default function AIAnalysisPage() {
             Get instant, AI-powered analysis of your skin condition. Upload photos and answer a few questions 
             to receive personalized recommendations from our advanced dermatology AI.
           </p>
-        </div>
+          </div>
+        </FadeIn>
 
         {/* Progress Indicator */}
-        <div className="flex items-center justify-center space-x-4 mb-8">
+        <SlideIn direction="down">
+          <div className="flex items-center justify-center space-x-4 mb-8">
           {[1, 2, 3, 4].map((stepNum) => (
             <div key={stepNum} className="flex items-center">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium ${
@@ -254,10 +254,12 @@ export default function AIAnalysisPage() {
               )}
             </div>
           ))}
-        </div>
+          </div>
+        </SlideIn>
 
         {/* Step Content */}
-        <div className="max-w-4xl mx-auto">
+        <FadeIn delay={0.2}>
+          <div className="max-w-4xl mx-auto">
           {/* Step 1: Image Upload */}
           {step === 1 && (
             <Card>
@@ -580,7 +582,8 @@ export default function AIAnalysisPage() {
               </Card>
             </div>
           )}
-        </div>
+          </div>
+        </FadeIn>
 
         {/* Features Grid */}
         {step === 1 && (

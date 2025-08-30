@@ -1,7 +1,8 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { User, authService } from '@/lib/auth';
+import { useLoading } from '@/hooks/use-loading';
 
 interface AuthContextType {
   user: User | null;
@@ -9,6 +10,7 @@ interface AuthContextType {
   register: (userData: any) => Promise<void>;
   logout: () => void;
   loading: boolean;
+  isAuthenticating: boolean;
   updateProfile: (updates: Partial<User>) => Promise<void>;
 }
 
@@ -24,68 +26,54 @@ export function useAuth() {
 
 function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { isLoading: loading, withLoading } = useLoading(true);
+  const { isLoading: isAuthenticating, withLoading: withAuth } = useLoading(false);
 
   useEffect(() => {
-    const initAuth = async () => {
-      try {
-        const currentUser = await authService.getCurrentUser();
-        setUser(currentUser);
-      } catch (error) {
-        console.error('Auth initialization error:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    initAuth();
+    withLoading(async () => {
+      const currentUser = await authService.getCurrentUser();
+      setUser(currentUser);
+    });
   }, []);
 
-  const login = async (email: string, password: string) => {
-    setLoading(true);
-    try {
+  const login = useCallback(async (email: string, password: string) => {
+    await withAuth(async () => {
       const user = await authService.login({ email, password });
       setUser(user);
-    } catch (error) {
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
+    });
+  }, [withAuth]);
 
-  const register = async (userData: any) => {
-    setLoading(true);
-    try {
+  const register = useCallback(async (userData: any) => {
+    await withAuth(async () => {
       const user = await authService.register(userData);
       setUser(user);
-    } catch (error) {
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
+    });
+  }, [withAuth]);
 
-  const updateProfile = async (updates: Partial<User>) => {
+  const updateProfile = useCallback(async (updates: Partial<User>) => {
     if (!user) throw new Error('No user logged in');
     
-    setLoading(true);
-    try {
+    await withLoading(async () => {
       const updatedUser = await authService.updateProfile(user.id, updates);
       setUser(updatedUser);
-    } catch (error) {
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
+    });
+  }, [user, withLoading]);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     authService.logout();
     setUser(null);
-  };
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading, updateProfile }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      login, 
+      register, 
+      logout, 
+      loading, 
+      isAuthenticating,
+      updateProfile 
+    }}>
       {children}
     </AuthContext.Provider>
   );

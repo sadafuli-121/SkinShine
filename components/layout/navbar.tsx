@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/components/providers';
+import { PageLoader } from '@/components/ui/loading';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -29,7 +31,21 @@ import {
 
 export function Navbar() {
   const { user, logout } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  const handleNavigation = (href: string) => {
+    if (pathname === href) return;
+    
+    setIsNavigating(true);
+    router.push(href);
+    setIsOpen(false);
+    
+    // Reset loading state after navigation
+    setTimeout(() => setIsNavigating(false), 500);
+  };
 
   const patientNavItems = [
     { href: '/dashboard', label: 'Dashboard', icon: User },
@@ -49,6 +65,8 @@ export function Navbar() {
   const navItems = user?.role === 'doctor' ? doctorNavItems : patientNavItems;
 
   return (
+    <>
+      {isNavigating && <PageLoader />}
     <nav className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -69,28 +87,28 @@ export function Navbar() {
                 {navItems.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <Link
+                    <button
                       key={item.href}
-                      href={item.href}
+                      onClick={() => handleNavigation(item.href)}
                       className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors"
                     >
                       <Icon className="w-4 h-4" />
                       <span>{item.label}</span>
-                    </Link>
+                    </button>
                   );
                 })}
               </>
             ) : (
               <>
-                <Link href="/learn" className="text-gray-600 hover:text-blue-600 transition-colors">
+                <button onClick={() => handleNavigation('/learn')} className="text-gray-600 hover:text-blue-600 transition-colors">
                   Learn
-                </Link>
-                <Link href="/find-doctors" className="text-gray-600 hover:text-blue-600 transition-colors">
+                </button>
+                <button onClick={() => handleNavigation('/find-doctors')} className="text-gray-600 hover:text-blue-600 transition-colors">
                   Find Doctors
-                </Link>
-                <Link href="/for-doctors" className="text-gray-600 hover:text-blue-600 transition-colors">
+                </button>
+                <button onClick={() => handleNavigation('/for-doctors')} className="text-gray-600 hover:text-blue-600 transition-colors">
                   For Doctors
-                </Link>
+                </button>
               </>
             )}
           </div>
@@ -192,37 +210,34 @@ export function Navbar() {
                     </>
                   ) : (
                     <>
-                      <Link
-                        href="/learn"
+                      <button
+                        onClick={() => handleNavigation('/learn')}
                         className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                        onClick={() => setIsOpen(false)}
                       >
                         Learn
-                      </Link>
-                      <Link
-                        href="/find-doctors"
+                      </button>
+                      <button
+                        onClick={() => handleNavigation('/find-doctors')}
                         className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                        onClick={() => setIsOpen(false)}
                       >
                         Find Doctors
-                      </Link>
-                      <Link
-                        href="/for-doctors"
+                      </button>
+                      <button
+                        onClick={() => handleNavigation('/for-doctors')}
                         className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                        onClick={() => setIsOpen(false)}
                       >
                         For Doctors
-                      </Link>
+                      </button>
                       <div className="flex flex-col space-y-2 pt-4">
                         <Button variant="outline" asChild>
-                          <Link href="/auth/login" onClick={() => setIsOpen(false)}>
+                          <button onClick={() => handleNavigation('/auth/login')}>
                             Login
-                          </Link>
+                          </button>
                         </Button>
                         <Button asChild>
-                          <Link href="/auth/register" onClick={() => setIsOpen(false)}>
+                          <button onClick={() => handleNavigation('/auth/register')}>
                             Get Started
-                          </Link>
+                          </button>
                         </Button>
                       </div>
                     </>
@@ -234,5 +249,6 @@ export function Navbar() {
         </div>
       </div>
     </nav>
+    </>
   );
 }

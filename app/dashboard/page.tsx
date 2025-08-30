@@ -8,6 +8,8 @@ import { Footer } from '@/components/layout/footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DashboardAnalytics } from '@/components/analytics/DashboardAnalytics';
+import { DashboardSkeleton } from '@/components/ui/skeleton-loader';
+import { FadeIn, SlideIn } from '@/components/layout/page-transition';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -41,9 +43,8 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your dashboard...</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <DashboardSkeleton />
         </div>
       </div>
     );
@@ -61,7 +62,8 @@ export default function DashboardPage() {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Header */}
-        <div className="mb-8">
+        <FadeIn>
+          <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
@@ -84,10 +86,12 @@ export default function DashboardPage() {
               </Avatar>
             </div>
           </div>
-        </div>
+          </div>
+        </FadeIn>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <SlideIn direction="up">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {isDoctor ? (
             <>
               <Card>
@@ -181,10 +185,12 @@ export default function DashboardPage() {
               </Card>
             </>
           )}
-        </div>
+          </div>
+        </SlideIn>
 
         {/* Analytics Tabs */}
-        <Tabs defaultValue="overview" className="space-y-6">
+        <FadeIn delay={0.3}>
+          <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
@@ -459,7 +465,8 @@ export default function DashboardPage() {
           <TabsContent value="analytics">
             <DashboardAnalytics userRole={user.role} />
           </TabsContent>
-        </Tabs>
+          </Tabs>
+        </FadeIn>
       </div>
 
       <Footer />

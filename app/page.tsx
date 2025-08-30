@@ -1,6 +1,9 @@
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { Button } from '@/components/ui/button';
+import { EnhancedButton } from '@/components/ui/enhanced-button';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { FadeIn, SlideIn } from '@/components/layout/page-transition';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
@@ -23,7 +26,8 @@ export default function Home() {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 py-20 lg:py-32">
+      <FadeIn>
+        <section className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
@@ -46,18 +50,18 @@ export default function Home() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" asChild>
+                <EnhancedButton size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" asChild>
                   <Link href="/auth/register">
                     Get Started Free
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>
-                </Button>
-                <Button size="lg" variant="outline" className="group" asChild>
+                </EnhancedButton>
+                <EnhancedButton size="lg" variant="outline" className="group" asChild>
                   <Link href="/demo">
                     <Play className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
                     Watch Demo
                   </Link>
-                </Button>
+                </EnhancedButton>
               </div>
               
               <div className="flex items-center space-x-6 text-sm text-gray-600">
@@ -128,10 +132,15 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+        </section>
+      </SlideIn>
+      </FadeIn>
+      </SlideIn>
+      </FadeIn>
       
       {/* Features Section */}
-      <section className="py-20 bg-gray-50">
+      <SlideIn direction="up">
+        <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
@@ -226,7 +235,8 @@ export default function Home() {
       </section>
       
       {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <FadeIn delay={0.4}>
+        <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             <div className="space-y-2">
@@ -253,7 +263,8 @@ export default function Home() {
       </section>
       
       {/* CTA Section */}
-      <section className="py-20 bg-white">
+      <SlideIn direction="up">
+        <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
             Ready to Transform Your Skin Care Journey?
@@ -262,15 +273,15 @@ export default function Home() {
             Join thousands of satisfied patients who trust SkinShine for their dermatology needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" asChild>
+            <EnhancedButton size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" asChild>
               <Link href="/auth/register">
                 Start Your Journey
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
+            </EnhancedButton>
+            <EnhancedButton size="lg" variant="outline" asChild>
               <Link href="/find-doctors">Browse Doctors</Link>
-            </Button>
+            </EnhancedButton>
           </div>
         </div>
       </section>

@@ -12,6 +12,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Skeleton } from '@/components/ui/skeleton';
+import { DoctorCardSkeleton } from '@/components/ui/skeleton-loader';
+import { FadeIn, SlideIn } from '@/components/layout/page-transition';
+import { useLoading } from '@/hooks/use-loading';
+import { useDebounce, PerformanceOptimizer } from '@/lib/optimizations';
 import { doctorService, Doctor } from '@/lib/doctors';
 import { 
   Search, 
@@ -31,8 +35,9 @@ import {
 
 export default function FindDoctorsPage() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { isLoading: loading, withLoading } = useLoading(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [filters, setFilters] = useState({
     specialization: 'all',
     language: 'all',
@@ -45,13 +50,20 @@ export default function FindDoctorsPage() {
 
   useEffect(() => {
     searchDoctors();
-  }, [filters, searchTerm]);
+  }, [filters, debouncedSearchTerm]);
 
   const searchDoctors = async () => {
-    setLoading(true);
-    try {
+    const cacheKey = `doctors_${JSON.stringify(filters)}_${debouncedSearchTerm}`;
+    const cached = PerformanceOptimizer.getCache(cacheKey);
+    
+    if (cached) {
+      setDoctors(cached);
+      return;
+    }
+
+    await withLoading(async () => {
       const results = await doctorService.searchDoctors({
-        search: searchTerm,
+        search: debouncedSearchTerm,
         specialization: filters.specialization,
         language: filters.language,
         minRating: filters.minRating,
@@ -59,11 +71,8 @@ export default function FindDoctorsPage() {
         availability: filters.availability
       });
       setDoctors(results);
-    } catch (error) {
-      console.error('Error searching doctors:', error);
-    } finally {
-      setLoading(false);
-    }
+      PerformanceOptimizer.setCache(cacheKey, results, 2); // Cache for 2 minutes
+    });
   };
 
   const handleDoctorClick = (doctorId: string) => {
@@ -95,13 +104,16 @@ export default function FindDoctorsPage() {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-8">
+        <FadeIn>
+          <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Find Dermatologists</h1>
           <p className="text-gray-600">Connect with certified skin specialists for expert consultation</p>
-        </div>
+          </div>
+        </FadeIn>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
+        <SlideIn direction="up">
+          <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
           <div className="flex flex-col lg:flex-row gap-4 mb-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -181,10 +193,12 @@ export default function FindDoctorsPage() {
               </div>
             </div>
           )}
-        </div>
+          </div>
+        </SlideIn>
 
         {/* Results */}
-        <div className="flex justify-between items-center mb-6">
+        <FadeIn delay={0.2}>
+          <div className="flex justify-between items-center mb-6">
           <p className="text-gray-600">
             {loading ? 'Searching...' : `${doctors.length} doctors found`}
           </p>
@@ -199,27 +213,15 @@ export default function FindDoctorsPage() {
               <SelectItem value="fee-high">Fee: High to Low</SelectItem>
             </SelectContent>
           </Select>
-        </div>
+          </div>
+        </FadeIn>
 
         {/* Doctor Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {loading ? (
             // Loading skeletons
             Array.from({ length: 6 }).map((_, i) => (
-              <Card key={i} className="p-6">
-                <div className="flex items-start space-x-4">
-                  <Skeleton className="w-16 h-16 rounded-full" />
-                  <div className="flex-1 space-y-2">
-                    <Skeleton className="h-6 w-48" />
-                    <Skeleton className="h-4 w-32" />
-                    <Skeleton className="h-4 w-64" />
-                    <div className="flex space-x-2">
-                      <Skeleton className="h-6 w-16" />
-                      <Skeleton className="h-6 w-16" />
-                    </div>
-                  </div>
-                </div>
-              </Card>
+              <DoctorCardSkeleton key={i} />
             ))
           ) : doctors.length === 0 ? (
             <div className="col-span-2 text-center py-12">
@@ -231,7 +233,14 @@ export default function FindDoctorsPage() {
             </div>
           ) : (
             doctors.map((doctor) => (
-              <Card key={doctor.id} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => handleDoctorClick(doctor.id)}>
+              <motion.div
+                key={doctor.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                whileHover={{ y: -2 }}
+              >
+                <Card className="hover:shadow-lg transition-all cursor-pointer" onClick={() => handleDoctorClick(doctor.id)}>
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
                     <div className="relative">
@@ -305,6 +314,7 @@ export default function FindDoctorsPage() {
                   </div>
                 </CardContent>
               </Card>
+              </motion.div>
             ))
           )}
         </div>
