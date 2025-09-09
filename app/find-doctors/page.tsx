@@ -233,14 +233,7 @@ export default function FindDoctorsPage() {
             </div>
           ) : (
             doctors.map((doctor) => (
-              <motion.div
-                key={doctor.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                whileHover={{ y: -2 }}
-              >
-                <Card className="hover:shadow-lg transition-all cursor-pointer" onClick={() => handleDoctorClick(doctor.id)}>
+              <Card key={doctor.id} className="hover:shadow-lg transition-all cursor-pointer" onClick={() => handleDoctorClick(doctor.id)}>
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
                     <div className="relative">
@@ -314,7 +307,6 @@ export default function FindDoctorsPage() {
                   </div>
                 </CardContent>
               </Card>
-              </motion.div>
             ))
           )}
         </div>
