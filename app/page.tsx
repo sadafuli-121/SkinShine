@@ -133,9 +133,6 @@ export default function Home() {
           </div>
         </div>
         </section>
-      </SlideIn>
-      </FadeIn>
-      </SlideIn>
       </FadeIn>
       
       {/* Features Section */}
