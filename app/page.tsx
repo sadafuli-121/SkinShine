@@ -2,7 +2,6 @@ import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { Button } from '@/components/ui/button';
 import { EnhancedButton } from '@/components/ui/enhanced-button';
-import { OptimizedImage } from '@/components/ui/optimized-image';
 import { FadeIn, SlideIn } from '@/components/layout/page-transition';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
