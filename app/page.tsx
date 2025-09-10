@@ -84,7 +84,7 @@ export default function Home() {
                 <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-8">
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold">Quick Consultation</h3>
+                      <h3 className="text-2xl font-semibold">Quick Consultation</h3>
                       <Badge className="bg-green-100 text-green-800">Online</Badge>
                     </div>
                     
@@ -230,6 +230,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+      </SlideIn>
       
       {/* Stats Section */}
       <FadeIn delay={0.4}>
@@ -258,6 +259,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+      </FadeIn>
       
       {/* CTA Section */}
       <SlideIn direction="up">
@@ -282,15 +284,9 @@ export default function Home() {
             </div>
           </div>
         </section>
-      
+      </SlideIn>
+
       <Footer />
     </div>
   );
-}
-
-  )
-}
-  )
-}
-  )
 }
