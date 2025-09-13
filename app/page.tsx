@@ -125,7 +125,6 @@ export default function Home() {
                   </div>
                 </div>
                 
-                {/* Decorative elements */}
                 <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full opacity-20"></div>
                 <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full opacity-20"></div>
               </div>

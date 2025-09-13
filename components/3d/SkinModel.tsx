@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text, Sphere, Box } from '@react-three/drei';
 import { Mesh } from 'three';
@@ -92,6 +92,17 @@ function SkinSphere({ conditions = [], onConditionClick }: SkinModelProps) {
   );
 }
 
+function LoadingFallback() {
+  return (
+    <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg">
+      <div className="text-center">
+        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-gray-600">Loading 3D Model...</p>
+      </div>
+    </div>
+  );
+}
+
 export function SkinModel({ conditions = [], onConditionClick }: SkinModelProps) {
   const [selectedCondition, setSelectedCondition] = useState<SkinCondition | null>(null);
 
@@ -106,16 +117,18 @@ export function SkinModel({ conditions = [], onConditionClick }: SkinModelProps)
 
   return (
     <div className="w-full h-full relative">
-      <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
-        <SkinSphere conditions={conditions} onConditionClick={handleConditionClick} />
-        <OrbitControls 
-          enablePan={true} 
-          enableZoom={true} 
-          enableRotate={true}
-          minDistance={3}
-          maxDistance={10}
-        />
-      </Canvas>
+      <Suspense fallback={<LoadingFallback />}>
+        <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
+          <SkinSphere conditions={conditions} onConditionClick={handleConditionClick} />
+          <OrbitControls 
+            enablePan={true} 
+            enableZoom={true} 
+            enableRotate={true}
+            minDistance={3}
+            maxDistance={10}
+          />
+        </Canvas>
+      </Suspense>
 
       {/* Controls */}
       <div className="absolute top-4 right-4 space-y-2">

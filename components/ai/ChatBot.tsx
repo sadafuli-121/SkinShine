@@ -21,7 +21,6 @@ import {
   Minimize2,
   Maximize2
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 interface Message {
   id: string;
@@ -183,11 +182,8 @@ export function ChatBot({ isOpen, onToggle, isMinimized = false, onMinimize }: C
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.8, y: 20 }}
-      className={`fixed z-50 bg-white rounded-lg shadow-2xl border ${
+    <div
+      className={`fixed z-50 bg-white rounded-lg shadow-2xl border transition-all duration-300 ${
         isMinimized 
           ? 'bottom-6 right-6 w-80 h-16' 
           : 'bottom-6 right-6 w-96 h-[600px]'
@@ -205,14 +201,16 @@ export function ChatBot({ isOpen, onToggle, isMinimized = false, onMinimize }: C
           </div>
         </div>
         <div className="flex items-center space-x-1">
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={onMinimize}
-            className="text-white hover:bg-white/20 h-8 w-8 p-0"
-          >
-            {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
-          </Button>
+          {onMinimize && (
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={onMinimize}
+              className="text-white hover:bg-white/20 h-8 w-8 p-0"
+            >
+              {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
+            </Button>
+          )}
           <Button
             size="sm"
             variant="ghost"
@@ -383,6 +381,6 @@ export function ChatBot({ isOpen, onToggle, isMinimized = false, onMinimize }: C
           </div>
         </>
       )}
-    </motion.div>
+    </div>
   );
 }

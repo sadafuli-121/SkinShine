@@ -1,19 +1,17 @@
 'use client';
 
 import { forwardRef } from 'react';
-import { motion } from 'framer-motion';
 import { Button, ButtonProps } from '@/components/ui/button';
-import { ButtonLoader } from '@/components/ui/loading';
+import { Loader2 } from 'lucide-react';
 
 interface EnhancedButtonProps extends ButtonProps {
   loading?: boolean;
   loadingText?: string;
   haptic?: boolean;
-  ripple?: boolean;
 }
 
 export const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>(
-  ({ children, loading, loadingText, haptic = true, ripple = true, disabled, onClick, ...props }, ref) => {
+  ({ children, loading, loadingText, haptic = true, disabled, onClick, ...props }, ref) => {
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       if (loading || disabled) return;
       
@@ -26,27 +24,21 @@ export const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>
     };
 
     return (
-      <motion.div
-        whileHover={{ scale: disabled || loading ? 1 : 1.02 }}
-        whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
-        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      <Button
+        ref={ref}
+        disabled={disabled || loading}
+        onClick={handleClick}
+        {...props}
       >
-        <Button
-          ref={ref}
-          disabled={disabled || loading}
-          onClick={handleClick}
-          {...props}
-        >
-          {loading ? (
-            <>
-              <ButtonLoader />
-              {loadingText || 'Loading...'}
-            </>
-          ) : (
-            children
-          )}
-        </Button>
-      </motion.div>
+        {loading ? (
+          <>
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            {loadingText || 'Loading...'}
+          </>
+        ) : (
+          children
+        )}
+      </Button>
     );
   }
 );
