@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+import { EnhancedFooter } from '@/components/layout/enhanced-footer';
+import { TestimonialsSection } from '@/components/testimonials/TestimonialsSection';
 import { Button } from '@/components/ui/button';
 import { EnhancedButton } from '@/components/ui/enhanced-button';
 import { FadeIn, SlideIn } from '@/components/layout/page-transition';
@@ -259,6 +260,9 @@ export default function Home() {
         </section>
       </FadeIn>
       
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+      
       {/* CTA Section */}
       <SlideIn direction="up">
         <section className="py-20 bg-white">
@@ -284,7 +288,7 @@ export default function Home() {
         </section>
       </SlideIn>
 
-      <Footer />
+      <EnhancedFooter />
     </div>
   );
 }

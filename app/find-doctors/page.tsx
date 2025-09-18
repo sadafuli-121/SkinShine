@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+import { EnhancedFooter } from '@/components/layout/enhanced-footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -321,7 +321,7 @@ export default function FindDoctorsPage() {
         )}
       </div>
 
-      <Footer />
+      <EnhancedFooter />
     </div>
   );
 }

@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+import { EnhancedFooter } from '@/components/layout/enhanced-footer';
 import { Heart, Eye, EyeOff, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
@@ -173,7 +173,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <Footer />
+      <EnhancedFooter />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/providers';
 import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+import { EnhancedFooter } from '@/components/layout/enhanced-footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DashboardAnalytics } from '@/components/analytics/DashboardAnalytics';
@@ -469,7 +469,7 @@ export default function DashboardPage() {
         </FadeIn>
       </div>
 
-      <Footer />
+      <EnhancedFooter />
     </div>
   );
 }

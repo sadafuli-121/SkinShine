@@ -13,7 +13,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+import { EnhancedFooter } from '@/components/layout/enhanced-footer';
 import { Heart, Eye, EyeOff, Loader2, User, Stethoscope } from 'lucide-react';
 
 export default function RegisterPage() {
@@ -389,7 +389,7 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      <Footer />
+      <EnhancedFooter />
     </div>
   );
 }

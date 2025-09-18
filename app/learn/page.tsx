@@ -1,5 +1,5 @@
 import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+import { EnhancedFooter } from '@/components/layout/enhanced-footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -204,7 +204,7 @@ export default function LearnPage() {
         </div>
       </section>
 
-      <Footer />
+      <EnhancedFooter />
     </div>
   );
 }

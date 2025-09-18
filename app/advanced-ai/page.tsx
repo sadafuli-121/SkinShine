@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { useAuth } from '@/components/providers';
 import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
+import { EnhancedFooter } from '@/components/layout/enhanced-footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -743,7 +743,7 @@ export default function AdvancedAIPage() {
         onMinimize={() => setChatMinimized(!chatMinimized)}
       />
 
-      <Footer />
+      <EnhancedFooter />
     </div>
   );
 }
