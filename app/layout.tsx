@@ -29,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body style={{ scrollBehavior: 'smooth' }}>
         <Providers>
           <PageTransition>
             {children}

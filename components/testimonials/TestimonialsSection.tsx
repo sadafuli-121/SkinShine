@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FadeInWhenVisible, ParallaxSection } from '@/components/animations/ScrollAnimations';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -144,42 +145,54 @@ export function TestimonialsSection() {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 overflow-hidden">
+    <ParallaxSection>
+      <section className="py-32 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 overflow-hidden relative">
+        {/* Animated Background Pattern */}
+        <motion.div
+          animate={{
+            backgroundPosition: ['0% 0%', '100% 100%'],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233b82f6' fill-opacity='0.3'%3E%3Ccircle cx='20' cy='20' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundSize: '40px 40px'
+          }}
+        />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+        <FadeInWhenVisible className="text-center mb-20">
             <Badge variant="secondary" className="bg-blue-100 text-blue-800 mb-4">
               Patient Stories
             </Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
               What Our Patients Say
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               Real stories from real patients who transformed their skin health with SkinShine
             </p>
-          </motion.div>
-        </div>
+        </FadeInWhenVisible>
 
         {/* 3D Testimonials Carousel */}
         <div 
-          className="relative perspective-1000"
+          className="relative perspective-1000 mb-16"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="relative h-96 flex items-center justify-center">
+          <div className="relative h-[500px] flex items-center justify-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
                 initial={{ 
                   opacity: 0, 
-                  rotateY: 90, 
+                  rotateY: 180, 
                   scale: 0.8,
-                  z: -100 
+                  z: -200 
                 }}
                 animate={{ 
                   opacity: 1, 
@@ -189,19 +202,27 @@ export function TestimonialsSection() {
                 }}
                 exit={{ 
                   opacity: 0, 
-                  rotateY: -90, 
+                  rotateY: -180, 
                   scale: 0.8,
-                  z: -100 
+                  z: -200 
                 }}
                 transition={{ 
-                  duration: 0.8, 
+                  duration: 1.2, 
                   ease: [0.4, 0.0, 0.2, 1] 
                 }}
-                className="absolute inset-0 flex items-center justify-center"
+                className="absolute inset-0 flex items-center justify-center preserve-3d"
                 style={{ transformStyle: 'preserve-3d' }}
               >
-                <Card className="max-w-4xl w-full mx-auto shadow-2xl bg-white/95 backdrop-blur-sm border-0">
-                  <CardContent className="p-8 lg:p-12">
+                <motion.div
+                  whileHover={{ 
+                    scale: 1.02,
+                    rotateY: 5,
+                    z: 50
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Card className="max-w-5xl w-full mx-auto shadow-3xl bg-white/95 backdrop-blur-sm border-0 rounded-3xl overflow-hidden">
+                    <CardContent className="p-8 lg:p-16">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                       {/* Customer Info */}
                       <div className="text-center lg:text-left">
@@ -293,8 +314,9 @@ export function TestimonialsSection() {
                         </motion.div>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               </motion.div>
             </AnimatePresence>
           </div>
@@ -373,29 +395,56 @@ export function TestimonialsSection() {
         </div>
 
         {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-8 text-center"
-        >
+        <FadeInWhenVisible className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
           <div className="space-y-2">
-            <div className="text-3xl font-bold text-gray-900">10,000+</div>
+            <motion.div 
+              className="text-4xl font-bold text-gray-900"
+              initial={{ opacity: 0, scale: 0 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              10,000+
+            </motion.div>
             <div className="text-gray-600">Happy Patients</div>
           </div>
           <div className="space-y-2">
-            <div className="text-3xl font-bold text-gray-900">4.9/5</div>
+            <motion.div 
+              className="text-4xl font-bold text-gray-900"
+              initial={{ opacity: 0, scale: 0 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              viewport={{ once: true }}
+            >
+              4.9/5
+            </motion.div>
             <div className="text-gray-600">Average Rating</div>
           </div>
           <div className="space-y-2">
-            <div className="text-3xl font-bold text-gray-900">95%</div>
+            <motion.div 
+              className="text-4xl font-bold text-gray-900"
+              initial={{ opacity: 0, scale: 0 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              viewport={{ once: true }}
+            >
+              95%
+            </motion.div>
             <div className="text-gray-600">Success Rate</div>
           </div>
           <div className="space-y-2">
-            <div className="text-3xl font-bold text-gray-900">24/7</div>
+            <motion.div 
+              className="text-4xl font-bold text-gray-900"
+              initial={{ opacity: 0, scale: 0 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              viewport={{ once: true }}
+            >
+              24/7
+            </motion.div>
             <div className="text-gray-600">Support Available</div>
           </div>
-        </motion.div>
+        </FadeInWhenVisible>
       </div>
 
       <style jsx>{`
@@ -403,6 +452,7 @@ export function TestimonialsSection() {
           perspective: 1000px;
         }
       `}</style>
-    </section>
+      </section>
+    </ParallaxSection>
   );
 }
