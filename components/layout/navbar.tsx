@@ -115,6 +115,12 @@ export function Navbar() {
                   <button onClick={() => handleNavigation('/learn')} className="text-gray-600 hover:text-blue-600 transition-colors">
                     Learn
                   </button>
+                  <button onClick={() => handleNavigation('/patient-stories')} className="text-gray-600 hover:text-blue-600 transition-colors">
+                    Patient Stories
+                  </button>
+                  <button onClick={() => handleNavigation('/upload')} className="text-gray-600 hover:text-blue-600 transition-colors">
+                    Upload Images
+                  </button>
                   <button onClick={() => handleNavigation('/find-doctors')} className="text-gray-600 hover:text-blue-600 transition-colors">
                     Find Doctors
                   </button>
@@ -222,6 +228,18 @@ export function Navbar() {
                           className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-left"
                         >
                           Learn
+                        </button>
+                        <button
+                          onClick={() => handleNavigation('/patient-stories')}
+                          className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-left"
+                        >
+                          Patient Stories
+                        </button>
+                        <button
+                          onClick={() => handleNavigation('/upload')}
+                          className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-left"
+                        >
+                          Upload Images
                         </button>
                         <button
                           onClick={() => handleNavigation('/find-doctors')}

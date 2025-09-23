@@ -9,6 +9,7 @@ import { EnhancedButton } from '@/components/ui/enhanced-button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { FaceModel } from '@/components/3d/FaceModel';
+import { HumanModel } from '@/components/3d/HumanModel';
 import { useSmoothScroll } from '@/hooks/use-smooth-scroll';
 import { 
   ParallaxSection,
@@ -185,10 +186,13 @@ export default function Home() {
               >
                 {/* 3D Model Container */}
                 <div className="relative h-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-3xl shadow-2xl overflow-hidden">
-                  <FaceModel 
+                  <HumanModel 
                     interactive={true}
+                    showAnatomicalPoints={true}
                     autoRotate={true}
-                    showConditions={true}
+                    onPointClick={(point) => {
+                      console.log('Clicked anatomical point:', point);
+                    }}
                   />
                   
                   {/* Floating UI Elements */}
@@ -201,9 +205,9 @@ export default function Home() {
                     <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 border">
                       <div className="flex items-center space-x-2 mb-2">
                         <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-sm font-medium text-gray-900">AI Analysis Active</span>
+                        <span className="text-sm font-medium text-gray-900">3D Model Active</span>
                       </div>
-                      <p className="text-xs text-gray-600">94% Accuracy • Real-time</p>
+                      <p className="text-xs text-gray-600">Interactive • Click to explore</p>
                     </div>
                   </motion.div>
 
@@ -216,9 +220,9 @@ export default function Home() {
                     <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 border">
                       <div className="flex items-center space-x-2 mb-2">
                         <Brain className="w-4 h-4 text-purple-600" />
-                        <span className="text-sm font-medium text-gray-900">3D Visualization</span>
+                        <span className="text-sm font-medium text-gray-900">Anatomical Points</span>
                       </div>
-                      <p className="text-xs text-gray-600">Interactive • Click to explore</p>
+                      <p className="text-xs text-gray-600">Explore common skin areas</p>
                     </div>
                   </motion.div>
                 </div>
