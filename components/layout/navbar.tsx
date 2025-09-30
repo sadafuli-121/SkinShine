@@ -124,6 +124,9 @@ export function Navbar() {
                   <button onClick={() => handleNavigation('/find-doctors')} className="text-gray-600 hover:text-blue-600 transition-colors">
                     Find Doctors
                   </button>
+                  <button onClick={() => handleNavigation('/avatar')} className="text-gray-600 hover:text-blue-600 transition-colors">
+                    3D Assistant
+                  </button>
                   <button onClick={() => handleNavigation('/for-doctors')} className="text-gray-600 hover:text-blue-600 transition-colors">
                     For Doctors
                   </button>
@@ -246,6 +249,12 @@ export function Navbar() {
                           className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-left"
                         >
                           Find Doctors
+                        </button>
+                        <button
+                          onClick={() => handleNavigation('/avatar')}
+                          className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-left"
+                        >
+                          3D Assistant
                         </button>
                         <button
                           onClick={() => handleNavigation('/for-doctors')}

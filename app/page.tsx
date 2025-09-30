@@ -8,8 +8,7 @@ import { Button } from '@/components/ui/button';
 import { EnhancedButton } from '@/components/ui/enhanced-button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { FaceModel } from '@/components/3d/FaceModel';
-import { HumanModel } from '@/components/3d/HumanModel';
+import { RealisticAvatarSystem } from '@/components/3d/RealisticAvatar';
 import { useSmoothScroll } from '@/hooks/use-smooth-scroll';
 import { 
   ParallaxSection,
@@ -78,9 +77,9 @@ export default function Home() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                >
+                      <span className="text-sm font-medium text-gray-900">Dr. AI Online</span>
                   <Badge variant="secondary" className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 hover:from-blue-200 hover:to-purple-200 transition-all duration-300">
-                    🇮🇳 Made for India • AI Powered
+                    <p className="text-xs text-gray-600">Voice & Chat Ready</p>
                   </Badge>
                 </motion.div>
 
@@ -114,10 +113,10 @@ export default function Home() {
                   className="text-xl lg:text-2xl text-gray-600 leading-relaxed"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.5 }}
-                >
+                      <Bot className="w-4 h-4 text-purple-600" />
+                      <span className="text-sm font-medium text-gray-900">AI Assistant</span>
                   Connect with certified dermatologists for personalized consultations. 
-                  Get AI-powered skin analysis, secure video consultations, and expert care 
+                    <p className="text-xs text-gray-600">Click to start conversation</p>
                   in Hindi, English, and regional languages.
                 </motion.p>
               </div>
@@ -133,14 +132,7 @@ export default function Home() {
                     size="lg" 
                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-4 shadow-xl hover:shadow-2xl transition-all duration-300" 
                     asChild
-                  >
-                    <Link href="/auth/register">
-                      <Zap className="mr-2 w-5 h-5" />
-                      Get Started Free
-                      <ArrowRight className="ml-2 w-5 h-5" />
-                    </Link>
-                  </EnhancedButton>
-                </PulseGlow>
+                <RealisticAvatarSystem />
                 
                 <EnhancedButton 
                   size="lg" 
