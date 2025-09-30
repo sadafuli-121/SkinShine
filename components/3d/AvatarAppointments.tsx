@@ -13,20 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
-import { 
-  Calendar as CalendarIcon, 
-  Clock, 
-  Video, 
-  MessageCircle,
-  User,
-  Stethoscope,
-  Star,
-  IndianRupee,
-  CheckCircle,
-  Plus,
-  Edit,
-  Trash2
-} from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, Video, MessageCircle, User, Stethoscope, Star, IndianRupee, CircleCheck as CheckCircle, Plus, CreditCard as Edit, Trash2 } from 'lucide-react';
 
 interface Appointment {
   id: string;

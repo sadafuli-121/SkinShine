@@ -15,19 +15,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { 
-  Heart, 
-  Menu, 
-  User, 
-  Calendar, 
-  MessageCircle, 
-  Settings, 
-  LogOut,
-  Stethoscope,
-  Search,
-  BookOpen,
-  Loader2
-} from 'lucide-react';
+import { Heart, Menu, User, Calendar, MessageCircle, Settings, LogOut, Stethoscope, Search, BookOpen, Loader as Loader2 } from 'lucide-react';
 
 export function Navbar() {
   const { user, logout } = useAuth();
@@ -249,12 +237,6 @@ export function Navbar() {
                           className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-left"
                         >
                           Find Doctors
-                        </button>
-                        <button
-                          onClick={() => handleNavigation('/avatar')}
-                          className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-left"
-                        >
-                          3D Assistant
                         </button>
                         <button
                           onClick={() => handleNavigation('/for-doctors')}
