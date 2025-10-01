@@ -23,22 +23,7 @@ import {
 } from '@/components/animations/ScrollAnimations';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { 
-  Heart, 
-  Shield, 
-  Clock, 
-  Users, 
-  Smartphone, 
-  Brain,
-  Star,
-  CheckCircle,
-  ArrowRight,
-  Play,
-  Zap,
-  Award,
-  Globe,
-  TrendingUp
-} from 'lucide-react';
+import { Heart, Shield, Clock, Users, Smartphone, Brain, Star, CircleCheck as CheckCircle, ArrowRight, Play, Zap, Award, Globe, TrendingUp } from 'lucide-react';
 
 export default function Home() {
   useSmoothScroll();
@@ -671,5 +656,6 @@ export default function Home() {
 
       <EnhancedFooter />
     </div>
+  )
   );
 }
