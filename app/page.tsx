@@ -671,6 +671,5 @@ export default function Home() {
 
       <EnhancedFooter />
     </div>
-  )
   );
 }
