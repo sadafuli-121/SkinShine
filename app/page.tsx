@@ -5,10 +5,10 @@ import { Navbar } from '@/components/layout/navbar';
 import { EnhancedFooter } from '@/components/layout/enhanced-footer';
 import { TestimonialsSection } from '@/components/testimonials/TestimonialsSection';
 import { Button } from '@/components/ui/button';
-import { EnhancedButton } from '@/components/ui/enhanced-button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { RealisticAvatarSystem } from '@/components/3d/RealisticAvatar';
+import { FaceModel } from '@/components/3d/FaceModel';
+import { HumanModel } from '@/components/3d/HumanModel';
 import { useSmoothScroll } from '@/hooks/use-smooth-scroll';
 import { 
   ParallaxSection,
@@ -23,10 +23,31 @@ import {
 } from '@/components/animations/ScrollAnimations';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Heart, Shield, Clock, Users, Smartphone, Brain, Star, CircleCheck as CheckCircle, ArrowRight, Play, Zap, Award, Globe, TrendingUp } from 'lucide-react';
+import { 
+  Heart, 
+  Shield, 
+  Clock, 
+  Users, 
+  Smartphone, 
+  Brain, 
+  Star, 
+  CheckCircle, 
+  ArrowRight, 
+  Play, 
+  Zap, 
+  Award, 
+  Globe, 
+  TrendingUp,
+  Bot,
+  User,
+  Stethoscope
+} from 'lucide-react';
 
 export default function Home() {
+  // Initialize smooth scrolling
   useSmoothScroll();
+  
+  // Scroll-based animations
   const { scrollYProgress } = useScroll();
   const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
@@ -62,9 +83,10 @@ export default function Home() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
-                      <span className="text-sm font-medium text-gray-900">Dr. AI Online</span>
+                >
                   <Badge variant="secondary" className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 hover:from-blue-200 hover:to-purple-200 transition-all duration-300">
-                    <p className="text-xs text-gray-600">Voice & Chat Ready</p>
+                    <Bot className="w-4 h-4 mr-2" />
+                    AI-Powered Healthcare
                   </Badge>
                 </motion.div>
 
@@ -98,10 +120,10 @@ export default function Home() {
                   className="text-xl lg:text-2xl text-gray-600 leading-relaxed"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                      <Bot className="w-4 h-4 text-purple-600" />
-                      <span className="text-sm font-medium text-gray-900">AI Assistant</span>
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                >
                   Connect with certified dermatologists for personalized consultations. 
-                    <p className="text-xs text-gray-600">Click to start conversation</p>
+                  Get AI-powered skin analysis and expert care 
                   in Hindi, English, and regional languages.
                 </motion.p>
               </div>
@@ -113,13 +135,20 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.7 }}
               >
                 <PulseGlow>
-                  <EnhancedButton 
+                  <Button 
                     size="lg" 
                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-4 shadow-xl hover:shadow-2xl transition-all duration-300" 
                     asChild
-                <RealisticAvatarSystem />
+                  >
+                    <Link href="/auth/register">
+                      <Zap className="mr-3 w-5 h-5" />
+                      Get Started Free
+                      <ArrowRight className="ml-3 w-5 h-5" />
+                    </Link>
+                  </Button>
+                </PulseGlow>
                 
-                <EnhancedButton 
+                <Button 
                   size="lg" 
                   variant="outline" 
                   className="group text-lg px-8 py-4 border-2 hover:bg-gray-50 transition-all duration-300" 
@@ -129,7 +158,7 @@ export default function Home() {
                     <Play className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
                     Watch Demo
                   </Link>
-                </EnhancedButton>
+                </Button>
               </motion.div>
               
               <motion.div 
@@ -163,13 +192,10 @@ export default function Home() {
               >
                 {/* 3D Model Container */}
                 <div className="relative h-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-3xl shadow-2xl overflow-hidden">
-                  <HumanModel 
+                  <FaceModel 
                     interactive={true}
-                    showAnatomicalPoints={true}
                     autoRotate={true}
-                    onPointClick={(point) => {
-                      console.log('Clicked anatomical point:', point);
-                    }}
+                    showConditions={true}
                   />
                   
                   {/* Floating UI Elements */}
@@ -182,9 +208,9 @@ export default function Home() {
                     <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 border">
                       <div className="flex items-center space-x-2 mb-2">
                         <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                        <span className="text-sm font-medium text-gray-900">3D Model Active</span>
+                        <span className="text-sm font-medium text-gray-900">AI Assistant</span>
                       </div>
-                      <p className="text-xs text-gray-600">Interactive • Click to explore</p>
+                      <p className="text-xs text-gray-600">Click to start conversation</p>
                     </div>
                   </motion.div>
 
@@ -197,9 +223,9 @@ export default function Home() {
                     <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 border">
                       <div className="flex items-center space-x-2 mb-2">
                         <Brain className="w-4 h-4 text-purple-600" />
-                        <span className="text-sm font-medium text-gray-900">Anatomical Points</span>
+                        <span className="text-sm font-medium text-gray-900">3D Analysis</span>
                       </div>
-                      <p className="text-xs text-gray-600">Explore common skin areas</p>
+                      <p className="text-xs text-gray-600">Interactive skin mapping</p>
                     </div>
                   </motion.div>
                 </div>
@@ -431,6 +457,41 @@ export default function Home() {
           </div>
         </ParallaxSection>
       </section>
+
+      {/* 3D Human Model Section */}
+      <section className="py-32 bg-white relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeInWhenVisible className="text-center space-y-6 mb-20">
+            <Badge variant="secondary" className="bg-purple-100 text-purple-800">
+              Interactive 3D Technology
+            </Badge>
+            <h2 className="text-4xl lg:text-6xl font-bold text-gray-900">
+              Explore Your{' '}
+              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                Skin Health
+              </span>{' '}
+              in 3D
+            </h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Our interactive 3D human model helps you understand skin conditions and 
+              visualize treatment areas with precision.
+            </p>
+          </FadeInWhenVisible>
+
+          <ScaleInWhenVisible>
+            <div className="relative h-[600px] bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl shadow-2xl overflow-hidden">
+              <HumanModel 
+                interactive={true}
+                showAnatomicalPoints={true}
+                autoRotate={true}
+                onPointClick={(point) => {
+                  console.log('Clicked anatomical point:', point);
+                }}
+              />
+            </div>
+          </ScaleInWhenVisible>
+        </div>
+      </section>
       
       {/* Stats Section with Parallax */}
       <ParallaxSection>
@@ -602,7 +663,7 @@ export default function Home() {
                 viewport={{ once: true }}
               >
                 <PulseGlow>
-                  <EnhancedButton 
+                  <Button 
                     size="lg" 
                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-xl px-10 py-6 shadow-2xl hover:shadow-3xl transition-all duration-300" 
                     asChild
@@ -612,10 +673,10 @@ export default function Home() {
                       Start Your Journey
                       <ArrowRight className="ml-3 w-6 h-6" />
                     </Link>
-                  </EnhancedButton>
+                  </Button>
                 </PulseGlow>
 
-                <EnhancedButton 
+                <Button 
                   size="lg" 
                   variant="outline" 
                   className="text-xl px-10 py-6 border-2 hover:bg-gray-50 transition-all duration-300" 
@@ -625,7 +686,7 @@ export default function Home() {
                     <Users className="mr-3 w-6 h-6" />
                     Browse Doctors
                   </Link>
-                </EnhancedButton>
+                </Button>
               </motion.div>
 
               {/* Trust Indicators */}
@@ -656,6 +717,5 @@ export default function Home() {
 
       <EnhancedFooter />
     </div>
-  )
   );
 }
