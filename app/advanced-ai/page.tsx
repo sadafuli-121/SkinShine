@@ -351,18 +351,18 @@ export default function AdvancedAIPage() {
                 </div>
                 
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {sampleConditions.map((condition) => (
-                    <Card key={condition.id} className="p-4">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <div className={`w-3 h-3 rounded-full ${
-                          condition.severity === 'high' ? 'bg-red-500' :
-                          condition.severity === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
-                        }`}></div>
-                        <h4 className="font-medium text-sm">{condition.name}</h4>
-                      </div>
-                      <p className="text-xs text-gray-600">{condition.description}</p>
-                    </Card>
-                  ))}
+                  {sampleConditions.map((condition) => {
+                    const bgColor = condition.severity === 'medium' ? 'bg-yellow-500' : 'bg-green-500';
+                    return (
+                      <Card key={condition.id} className="p-4">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <div className={`w-3 h-3 rounded-full ${bgColor}`}></div>
+                          <h4 className="font-medium text-sm">{condition.name}</h4>
+                        </div>
+                        <p className="text-xs text-gray-600">{condition.description}</p>
+                      </Card>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>
